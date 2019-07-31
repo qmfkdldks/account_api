@@ -5,7 +5,25 @@ defmodule AccountApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", AccountApiWeb do
-    pipe_through :api
+  pipeline :jwt_authenticated do
+    plug Account.Guardian.AuthPipeline
   end
+
+  scope "/api/v1", AccountApiWeb do
+    pipe_through :api
+
+    scope "/user" do
+      resources "/", User.RegistrationController, only: [:create]
+      resources "/auth", User.AuthenticationController, only: [:create]
+    end
+  end
+
+  scope "/api/v1", AccountApiWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    scope "/user" do
+      resources "/", User.RegistrationController, only: [:show]
+    end
+  end
+
 end

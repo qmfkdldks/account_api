@@ -7,6 +7,8 @@
 # General application configuration
 use Mix.Config
 
+config :account_api, ecto_repos: [AccountCore.Repo]
+
 # Configures the endpoint
 config :account_api, AccountApiWeb.Endpoint,
   url: [host: "localhost"],
