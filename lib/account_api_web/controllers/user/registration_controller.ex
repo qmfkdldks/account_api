@@ -11,8 +11,7 @@ defmodule AccountApiWeb.User.RegistrationController do
          {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
-      |> render("jwt.json", jwt: token)
-
+      |> render("user.json", user: user)
       #   |> put_resp_header("location", user_    path(conn, :show, user))
     end
   end
@@ -23,7 +22,7 @@ defmodule AccountApiWeb.User.RegistrationController do
   end
 
   def update(conn, _params) do
-    # user = Guardian.Plug.current_resource(conn)
-
+    user = Guardian.Plug.current_resource(conn)
+    conn |> render("user.json", user: user)
   end
 end
