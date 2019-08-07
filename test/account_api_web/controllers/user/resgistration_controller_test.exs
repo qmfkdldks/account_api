@@ -1,41 +1,35 @@
 defmodule AccountApiWeb.User.RegistrationControllerTest do
   use AccountApiWeb.ConnCase
 
+  @email "test_user@gmail.com"
+  @password "123Wjsdbstjs"
+
   @create_attrs %{
-    email: "some@naver.com",
-    password: "rkskekfk1",
-    password_confirmation: "rkskekfk1"
+    email: @email,
+    password: @password,
+    password_confirmation: @password
   }
 
   @update_attrs %{
-    email: "some@naver.com",
-    password: "rkskekfk1",
-    password_confirmation: "rkskekfk1"
+    email: @email,
+    password: @password,
+    password_confirmation: @password
   }
 
-  @invalid_attrs %{email: nil, password: nil}
+  @invalid_attrs %{email: "nil", password: "nil"}
 
-  def fixture(:user) do
+  defp create(:user) do
     {:ok, user} = AccountCore.Domain.User.sign_up(@create_attrs)
     user
   end
 
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
-  end
-
-  # setup %{conn: conn} do
-  #   {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  # end
-
-  setup %{conn: conn} do
-    user = fixture(:user)
+  defp authenticate_user %{conn: conn} do
+    user = create(:user)
     {:ok, token, _} = AccountCore.Domain.User.sign_in(user.email, user.password)
 
     conn = conn
-       |> put_req_header("accept", "application/json")
-       |> put_req_header("Bearer", token)
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("authorization", "bearer: " <> token)
 
     {:ok, %{ conn: conn, user: user }}
  end
@@ -53,6 +47,7 @@ defmodule AccountApiWeb.User.RegistrationControllerTest do
   end
 
   describe "Put Update /api/v1/user" do
+    setup [:authenticate_user]
 
     test "valid user data", %{conn: conn, user: user} do
       response = conn
@@ -65,9 +60,12 @@ defmodule AccountApiWeb.User.RegistrationControllerTest do
       assert json_response(response, :unprocessable_entity)["errors"] != %{}
     end
 
-    test "unauthorized", %{conn: conn, user: user} do
-      response = put(conn, Routes.registration_path(conn, :update, user.id), user: @invalid_attrs)
-      assert json_response(response, :unauthorized)["errors"] != %{}
+    test "invalid token", %{conn: conn, user: user} do
+      response = conn
+      |> put_req_header("authorization", "bearer: invalid")
+      |> put(Routes.registration_path(conn, :update, user.id), user: @invalid_attrs)
+
+      assert response(response, :unauthorized)
     end
   end
 

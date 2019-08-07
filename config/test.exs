@@ -2,11 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :account_core, AccountCore.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "liar",
-  password: "007rkdqm",
-  database: "account_test",
-  hostname: "localhost",
+  database: "#{System.get_env("ACCOUNT_DB_NAME")}_test",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

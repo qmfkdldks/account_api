@@ -16,6 +16,11 @@ config :account_api, AccountApiWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+# Configure your database
+config :account_core, AccountCore.Repo,
+  database: "#{System.get_env("ACCOUNT_DB_NAME")}_prod",
+  pool_size: 10
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

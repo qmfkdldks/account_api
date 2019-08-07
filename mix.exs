@@ -9,6 +9,7 @@ defmodule AccountApi.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -37,7 +38,15 @@ defmodule AccountApi.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:account_core, path: "../account_core"},
+      {:account_core, path: "./private_deps/account_core"},
+    ]
+  end
+
+  defp aliases do
+    [
+     "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+     "test":       ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

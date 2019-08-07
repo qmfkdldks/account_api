@@ -21,8 +21,10 @@ defmodule AccountApiWeb.User.RegistrationController do
     conn |> render("user.json", user: user)
   end
 
-  def update(conn, _params) do
+  def update(conn, %{"user" => user_params}) do
     user = Guardian.Plug.current_resource(conn)
-    conn |> render("user.json", user: user)
+    with {:ok, user} <- Domain.User.update(user, user_params) do
+      conn |> render("user.json", user: user)
+    end
   end
 end

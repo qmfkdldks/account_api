@@ -1,11 +1,7 @@
 use Mix.Config
 
 config :account_core, AccountCore.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "liar",
-  password: "007rkdqm",
-  database: "account_dev",
-  hostname: "localhost",
+  database: "#{System.get_env("ACCOUNT_DB_NAME")}_dev",
   pool_size: 10
 
 # For development, we disable any cache and enable
