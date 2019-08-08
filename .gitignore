@@ -29,6 +29,3 @@ account-*.tar
 
 # Visutal studio code
 .elixir_ls/
-
-# Ignore config secrets
-/config/*secret.exs
