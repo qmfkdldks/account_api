@@ -29,10 +29,8 @@ jobs:
             git submodule init
             git submodule update --remote
 
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
-      - run: mix deps.get
-      - run: mix deps.compile
+      - run: mix do local.hex --force, local.rebar --force
+      - run: mix do deps.get, deps.compile
       - run: mix compile
 
       - save_cache:
@@ -78,7 +76,7 @@ jobs:
             - v1-mix-cache
 
       - run: mix do local.hex --force, local.rebar --force
-      - run: mix deps.get
+      - run: mix do deps.get, deps.compile
 
       - run:
           name: Wait for DB
@@ -87,7 +85,7 @@ jobs:
       - run: mix test
 
       - store_test_results:
-          path: _build/test/lib/account_api
+          path: test-results
 workflows:
   version: 2
   btd:
