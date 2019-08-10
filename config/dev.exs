@@ -1,7 +1,11 @@
 use Mix.Config
 
 config :account_core, AccountCore.Repo,
-  database: "#{System.get_env("ACCOUNT_DB_NAME")}_dev",
+  username: "liar",
+  password: "007rkdqm",
+  database: "account_api_dev",
+  hostname: "localhost",
+  port: 5432,
   pool_size: 10
 
 # For development, we disable any cache and enable
@@ -11,7 +15,9 @@ config :account_core, AccountCore.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :account_api, AccountApiWeb.Endpoint,
+  url: [host: "localhost"],
   http: [port: 4000],
+  secret_key_base: "F87gcXtpHmLDsPb/bOzcHryIBNljmQoDFBaZnfoTc/j/jYQ7am75ISRtbRFZXqxU",
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

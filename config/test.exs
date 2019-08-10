@@ -1,8 +1,16 @@
 use Mix.Config
 
+config :account_core, AccountCore.Guardian,
+issuer: "account",
+secret_key: "1Di0BLNANkPPqAbdcM60Gi2iuyPTvdZxtY8W5Apd3GfgeE/O8307J4qeEheoVQY6"
+
 # Configure your database
 config :account_core, AccountCore.Repo,
-  database: "#{System.get_env("ACCOUNT_DB_NAME")}_test",
+  username: "liar",
+  password: "007rkdqm",
+  database: "account_api_dev",
+  hostname: "localhost",
+  port: 5432,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
@@ -13,5 +21,3 @@ config :account_api, AccountApiWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-import_config "test.secret.exs"
