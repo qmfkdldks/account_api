@@ -5,10 +5,10 @@ jobs:
       - image: elixir:1.9.0-alpine
         environment:
           MIX_ENV: prod
-    working_directory: ~/app
+    working_directory: /app
     steps:
       - persist_to_workspace:
-          root: ~/app
+          root: /app
           paths:
             - _build
       - checkout
@@ -70,7 +70,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: account_api_test
-    working_directory: ~/app
+    working_directory: /app
     steps:
       - checkout
       - restore_cache:
