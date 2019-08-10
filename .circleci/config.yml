@@ -78,6 +78,8 @@ jobs:
             - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
             - v1-mix-cache-{{ .Branch }}
             - v1-mix-cache
+
+      - run: mix do local.hex --force, local.rebar --force
       - run: mix deps.get
 
       - run:
