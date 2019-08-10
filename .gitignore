@@ -30,5 +30,5 @@ account-*.tar
 # Visutal studio code
 .elixir_ls/
 
-# Ignore env
-.env
+# Ignore prod env
+.prod
