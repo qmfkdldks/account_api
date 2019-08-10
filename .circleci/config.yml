@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: elixir:1.9.0-alpine
+      - image: circleci/elixir:1.9.0
         environment:
           MIX_ENV: prod
     steps:
@@ -69,6 +69,14 @@ jobs:
           POSTGRES_DB: account_api_test
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "20:f4:f4:ae:3e:a6:f1:fb:a5:7b:25:4c:bc:cd:86:ba"
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update --remote
       - restore_cache:
           keys:
             - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
