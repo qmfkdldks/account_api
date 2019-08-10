@@ -6,9 +6,9 @@ secret_key: "1Di0BLNANkPPqAbdcM60Gi2iuyPTvdZxtY8W5Apd3GfgeE/O8307J4qeEheoVQY6"
 
 # Configure your database
 config :account_core, AccountCore.Repo,
-  username: "liar",
-  password: "007rkdqm",
-  database: "account_api_dev",
+  username: "postgres",
+  password: "postgres",
+  database: "account_api_test",
   hostname: "localhost",
   port: 5432,
   pool: Ecto.Adapters.SQL.Sandbox
