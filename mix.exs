@@ -39,6 +39,7 @@ defmodule AccountApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:account_core, path: "./private_deps/account_core"},
+      {:health_checkup, "~> 0.1.0"},
     ]
   end
 

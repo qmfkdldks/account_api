@@ -1,6 +1,8 @@
 defmodule AccountApiWeb.Router do
   use AccountApiWeb, :router
 
+  forward "/health", HealthCheckup
+
   pipeline :api do
     plug :accepts, ["json"]
   end
