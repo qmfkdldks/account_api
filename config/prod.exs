@@ -23,7 +23,7 @@ config :account_api, AccountApiWeb.Endpoint,
   load_from_system_env: true,
   server: true,
   url: [host: app_hostname],
-  http: [port: 4000],
+  http: [port: app_port],
   secret_key_base: secret_key_base
 
 # cache_static_manifest: "priv/static/cache_manifest.json"
