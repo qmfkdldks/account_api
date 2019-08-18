@@ -1,62 +1,8 @@
 version: 2
+orbs:
+  aws-ecr: circleci/aws-ecr@0.0.2
+  aws-ecs: circleci/aws-ecs@0.0.8
 jobs:
-  build:
-    docker:
-      - image: circleci/elixir:1.9.0
-        environment:
-          MIX_ENV: prod
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "20:f4:f4:ae:3e:a6:f1:fb:a5:7b:25:4c:bc:cd:86:ba"
-      - restore_cache:
-          keys:
-            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v1-mix-cache-{{ .Branch }}
-            - v1-mix-cache
-      - restore_cache:
-          keys:
-            - v1-build-cache-{{ .Branch }}
-            - v1-build-cache
-      - run:
-          name: "Pull Submodules"
-          command: |
-            git submodule init
-            git submodule update --remote
-
-      - run: mix do local.hex --force, local.rebar --force
-      - run: mix do deps.get, deps.compile
-      - run: mix compile
-
-      - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths:
-            - "deps"
-      - save_cache:
-          key: v1-mix-cache-{{ .Branch }}
-          paths:
-            - "deps"
-      - save_cache:
-          key: v1-mix-cache
-          paths:
-            - "deps"
-      - save_cache:
-          key: v1-build-cache-{{ .Branch }}
-          paths:
-            - "_build"
-      - save_cache:
-          key: v1-build-cache
-          paths:
-            - "_build"
-
-      - run: mix phx.digest
-      - run: mix release
-      - run: ls
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - _build
   test:
     docker:
       - image: circleci/elixir:1.9.0
@@ -94,10 +40,25 @@ jobs:
       - run: mix test
 
       - store_test_results:
-          path: test-results
+          path: _build/test/lib/account_api
 workflows:
   version: 2
-  btd:
+  build-and-test:
     jobs:
-      - build
       - test
+  deploy:
+    jobs:
+      - aws-ecr/build_and_push_image:
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"
+          extra-build-args: "--build-arg DB_USER=${DB_USER} 
+          --build-arg DB_PASSWORD=${DB_PASSWORD} 
+          --build-arg DB_NAME=${DB_NAME} 
+          --build-arg DB_HOST=${DB_HOST}
+          --build-arg DB_PORT=${DB_PORT} 
+          --build-arg APP_PORT=${APP_PORT} 
+          --build-arg APP_HOSTNAME=${APP_HOSTNAME} 
+          --build-arg SECRET_KEY_BASE=${SECRET_KEY_BASE} 
+          --build-arg AUTH_SECRET_KEY=${AUTH_SECRET_KEY}"

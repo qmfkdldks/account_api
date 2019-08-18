@@ -32,3 +32,4 @@ account-*.tar
 
 # Ignore prod env
 .prod
+.env
