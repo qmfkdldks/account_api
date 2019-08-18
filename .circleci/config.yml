@@ -40,7 +40,7 @@ jobs:
       - run: mix test
 
       - store_test_results:
-          path: _build/test/lib/account_api
+          path: _build/test/lib/account_api       
 workflows:
   version: 2
   test:
@@ -51,4 +51,4 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: ${AWS_RESOURCE_NAME_PREFIX}
           tag: ${CIRCLE_SHA1}
-          extra-build-args: "--build-arg DB_USER=$DB_USER --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg DB_NAME=$DB_NAME --build-arg DB_HOST=$DB_HOST --build-arg DB_PORT=$DB_PORT --build-arg APP_PORT=$APP_PORT --build-arg APP_HOSTNAME=$APP_HOSTNAME --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE --build-arg AUTH_SECRET_KEY=$AUTH_SECRET_KEY"
+          extra-build-args: "--build-arg DB_USER=${DB_USER} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg DB_NAME=${DB_NAME} --build-arg DB_HOST=${DB_HOST} --build-arg DB_PORT=${DB_PORT} --build-arg APP_PORT=${APP_PORT} --build-arg APP_HOSTNAME=${APP_HOSTNAME} --build-arg SECRET_KEY_BASE=${SECRET_KEY_BASE} --build-arg AUTH_SECRET_KEY=${AUTH_SECRET_KEY}"

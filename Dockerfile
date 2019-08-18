@@ -32,6 +32,8 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 COPY . /app
 
+RUN git submodule update --init --recursive
+
 # install dependencies
 RUN mix deps.get --only prod
 # Compile all dependencies
