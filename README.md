@@ -1,18 +1,15 @@
 # AccountApi
+Account service 
 
-To start your Phoenix server:
+# Objective
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server`
+# Routes
+- /sign_in
+- /sign_up
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+# Dev
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Test and Coverage
+## Lint
 
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+# Pipeline
