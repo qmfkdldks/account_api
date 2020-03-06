@@ -1,11 +1,19 @@
 use Mix.Config
 
+app_port = System.get_env("APP_PORT") || 4000
+app_hostname = System.get_env("APP_HOSTNAME") || "localhost"
+db_user = System.get_env("DB_USER") || "postgres"
+db_password = System.get_env("DB_PASSWORD") || "postgres"
+db_host = System.get_env("DB_HOST") || "localhost"
+db_port = System.get_env("DB_PORT") || 5432
+db_name = System.get_env("DB_NAME") || "account_api_dev"
+
 config :account_core, AccountCore.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "account_api_dev",
-  hostname: "localhost",
-  port: 5432,
+  username: db_user,
+  password: db_password,
+  database: db_name,
+  hostname: db_host,
+  port: db_port,
   pool_size: 10
 
 # For development, we disable any cache and enable
@@ -15,8 +23,8 @@ config :account_core, AccountCore.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :account_api, AccountApiWeb.Endpoint,
-  url: [host: "localhost"],
-  http: [port: 4000],
+  url: [host: app_hostname],
+  http: [port: app_port],
   secret_key_base: "F87gcXtpHmLDsPb/bOzcHryIBNljmQoDFBaZnfoTc/j/jYQ7am75ISRtbRFZXqxU",
   debug_errors: true,
   code_reloader: true,
