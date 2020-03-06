@@ -27,14 +27,15 @@ EXPOSE $APP_PORT
 
 RUN mix do local.hex --force, local.rebar --force
 
-# create app folder
+# Create app folder
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 COPY . /app
 
+# Clone account core dependency
 RUN git submodule update --init --recursive
 
-# install dependencies
+# Install dependencies
 RUN mix deps.get --only prod
 # Compile all dependencies
 RUN mix deps.compile

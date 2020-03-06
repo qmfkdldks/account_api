@@ -1,8 +1,8 @@
 use Mix.Config
 
 config :account_core, AccountCore.Repo,
-  username: "liar",
-  password: "007rkdqm",
+  username: "postgres",
+  password: "postgres",
   database: "account_api_dev",
   hostname: "localhost",
   port: 5432,

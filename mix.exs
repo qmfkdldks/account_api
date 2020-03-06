@@ -39,15 +39,15 @@ defmodule AccountApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:account_core, path: "./private_deps/account_core"},
-      {:health_checkup, "~> 0.1.0"},
+      {:health_checkup, "~> 0.1.0"}
     ]
   end
 
   defp aliases do
     [
-     "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "test":       ["ecto.create --quiet", "ecto.migrate", "test"]
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end
