@@ -1,29 +1,10 @@
-FROM elixir:1.9.1
+FROM elixir:1.9.1-alpine as build
 
-ARG DB_USER
-ARG DB_PASSWORD
-ARG DB_NAME
-ARG DB_HOST
-ARG DB_PORT
-ARG APP_PORT
-ARG APP_HOSTNAME
-ARG SECRET_KEY_BASE
-ARG AUTH_SECRET_KEY
-
-ENV DB_USER ${DB_USER}
-ENV DB_PASSWORD ${DB_PASSWORD}
-ENV DB_NAME ${DB_NAME}
-ENV DB_HOST ${DB_HOST}
-ENV DB_PORT ${DB_PORT}
-ENV APP_PORT ${APP_PORT}
-ENV APP_HOSTNAME ${APP_HOSTNAME}
-ENV SECRET_KEY_BASE ${SECRET_KEY_BASE}
-ENV AUTH_SECRET_KEY ${AUTH_SECRET_KEY}
+# install build dependencies
+RUN apk add --update git build-base
 
 ENV MIX_ENV prod
 ENV APP_HOME /app
-
-EXPOSE $APP_PORT
 
 RUN mix do local.hex --force, local.rebar --force
 
@@ -36,10 +17,26 @@ COPY . /app
 RUN git submodule update --init --recursive
 
 # Install dependencies
-RUN mix deps.get --only prod
+RUN mix deps.get
+
 # Compile all dependencies
 RUN mix deps.compile
 # Compile the entire project
 RUN mix compile
 
-CMD ["mix", "phx.server"]
+# build release (uncomment COPY if rel/ exists)
+# COPY rel rel
+RUN mix release
+
+# prepare release image
+FROM alpine:3.9 AS app
+RUN apk add --update bash openssl
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY --from=build /app/_build/prod/rel/account_api ./
+RUN chown -R nobody: /app
+USER nobody
+
+ENV HOME=/app
