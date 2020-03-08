@@ -23,16 +23,17 @@ defmodule AccountApiWeb.User.RegistrationControllerTest do
     user
   end
 
-  defp authenticate_user %{conn: conn} do
+  defp authenticate_user(%{conn: conn}) do
     user = create(:user)
     {:ok, token, _} = AccountCore.Domain.User.sign_in(user.email, user.password)
 
-    conn = conn
+    conn =
+      conn
       |> put_req_header("accept", "application/json")
       |> put_req_header("authorization", "bearer: " <> token)
 
-    {:ok, %{ conn: conn, user: user }}
- end
+    {:ok, %{conn: conn, user: user}}
+  end
 
   describe "POST SignUp /api/v1/user" do
     test "valid user data", %{conn: conn} do
@@ -50,8 +51,10 @@ defmodule AccountApiWeb.User.RegistrationControllerTest do
     setup [:authenticate_user]
 
     test "valid user data", %{conn: conn, user: user} do
-      response = conn
+      response =
+        conn
         |> put(Routes.registration_path(conn, :update, user.id), user: @update_attrs)
+
       assert json_response(response, :ok)
     end
 
@@ -61,12 +64,12 @@ defmodule AccountApiWeb.User.RegistrationControllerTest do
     end
 
     test "invalid token", %{conn: conn, user: user} do
-      response = conn
-      |> put_req_header("authorization", "bearer: invalid")
-      |> put(Routes.registration_path(conn, :update, user.id), user: @invalid_attrs)
+      response =
+        conn
+        |> put_req_header("authorization", "bearer: invalid")
+        |> put(Routes.registration_path(conn, :update, user.id), user: @invalid_attrs)
 
       assert response(response, :unauthorized)
     end
   end
-
 end
