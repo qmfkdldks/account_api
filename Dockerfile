@@ -40,3 +40,7 @@ RUN chown -R nobody: /app
 USER nobody
 
 ENV HOME=/app
+
+EXPOSE 4000
+
+CMD ["/app/bin/account_api", "start"]
