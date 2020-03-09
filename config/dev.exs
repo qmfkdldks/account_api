@@ -3,7 +3,7 @@ use Mix.Config
 app_port = System.get_env("APP_PORT") || 4000
 app_hostname = System.get_env("APP_HOSTNAME") || "localhost"
 db_user = System.get_env("DB_USER") || "postgres"
-db_password = System.get_env("DB_PASSWORD") || "postgres"
+db_password = System.get_env("DB_PASSWORD") || ""
 db_host = System.get_env("DB_HOST") || "localhost"
 db_port = System.get_env("DB_PORT") || 5432
 db_name = System.get_env("DB_NAME") || "account_api_dev"
