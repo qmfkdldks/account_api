@@ -16,6 +16,9 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 COPY . /app
 
+# Add wait-for-it
+RUN chmod +x ./wait-for-it.sh
+
 # Clone account core dependency
 RUN git submodule update --init --recursive
 
