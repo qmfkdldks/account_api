@@ -25,8 +25,6 @@ RUN mix deps.get
 RUN mix deps.compile
 # Compile the entire project
 RUN mix compile
-# Create DB and seed test data
-RUN mix ecto.setup
 
 EXPOSE 4000
 
