@@ -7,7 +7,7 @@ services:
     links:
       - postgres
     ports:
-      - "4000:4000"
+      - 4000
     command: >-
       bash -c './wait-for-it.sh -t 20 postgres:5432 -- mix ecto.setup; mix phx.server'
     environment:
