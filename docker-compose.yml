@@ -1,9 +1,7 @@
 version: "3"
 services:
   app:
-    build:
-      context: .
-      dockerfile: dev.Dockerfile
+    image: qmfkdldks/account_api
     links:
       - postgres
     ports:
