@@ -6,6 +6,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ARG DB_HOST
+ENV DB_HOST $DB_HOST
+
+ARG DB_USER
+ENV DB_USER $DB_USER
+
+ARG DB_PASSWORD
+ENV DB_PASSWORD $DB_PASSWORD
+
 ENV MIX_ENV dev
 ENV APP_HOME /app
 
