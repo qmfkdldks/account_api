@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    image: qmfkdldks/account_api
+    image: ${{build}}
     links:
       - postgres
     ports:
